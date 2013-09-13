@@ -29,6 +29,7 @@ The plugin doesn't support all Bootstrap elements yet, but most of them.
 * [Wells](#wells)
 * [Panels](#panels)
 * [Media Objects](#media-objects)
+* [Jumbotron](#jumbotron)
 
 ## Usage
 
