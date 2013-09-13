@@ -52,7 +52,6 @@ class BoostrapShortcodes {
     add_action( 'init', array( $this, 'add_shortcodes' ) );
   }
 
-
   /*--------------------------------------------------------------------------------------
     *
     * add_shortcodes
@@ -86,8 +85,6 @@ class BoostrapShortcodes {
     add_shortcode('panel', array( $this, 'bs_panel' ));
 
   }
-
-
 
   /*--------------------------------------------------------------------------------------
     *
@@ -150,9 +147,6 @@ class BoostrapShortcodes {
     return $return;
   }
 
-
-
-
   /*--------------------------------------------------------------------------------------
     *
     * bs_code
@@ -176,9 +170,6 @@ class BoostrapShortcodes {
     return $return;
   }
 
-
-
-
   /*--------------------------------------------------------------------------------------
     *
     * bs_span
@@ -194,11 +185,7 @@ class BoostrapShortcodes {
     ), $atts));
 
     return '<div class="span' . $size . '">' . do_shortcode( $content ) . '</div>';
-
   }
-
-
-
 
   /*--------------------------------------------------------------------------------------
     *
@@ -209,13 +196,8 @@ class BoostrapShortcodes {
     *
     *-------------------------------------------------------------------------------------*/
   function bs_row( $atts, $content = null ) {
-
     return '<div class="row">' . do_shortcode( $content ) . '</div>';
-
   }
-
-
-
 
   /*--------------------------------------------------------------------------------------
     *
@@ -309,9 +291,6 @@ class BoostrapShortcodes {
 
   }
 
-
-
-
   /*--------------------------------------------------------------------------------------
     *
     * bs_badge
@@ -328,9 +307,6 @@ class BoostrapShortcodes {
     return '<span class="badge' . $right . '">' . do_shortcode( $content ) . '</span>';
 
   }
-
-
-
 
   /*--------------------------------------------------------------------------------------
     *
@@ -383,9 +359,6 @@ class BoostrapShortcodes {
           $output .= '</table>';
       return $output;
   }
-
-
-
 
   /*--------------------------------------------------------------------------------------
     *
@@ -484,9 +457,6 @@ class BoostrapShortcodes {
     return $output;
   }
 
-
-
-
   /*--------------------------------------------------------------------------------------
     *
     * bs_tab
@@ -515,9 +485,6 @@ class BoostrapShortcodes {
 
     return '<div id="custom-tab-' . $GLOBALS['tabs_count'] . '-'. sanitize_title( $title ) .'" class="tab-pane ' . $state . '">'. do_shortcode( $content ) .'</div>';
   }
-
-
-
 
   /*--------------------------------------------------------------------------------------
     *
@@ -556,9 +523,6 @@ class BoostrapShortcodes {
     return $output;
   }
 
-
-
-
   /*--------------------------------------------------------------------------------------
     *
     * bs_collapse
@@ -584,7 +548,6 @@ class BoostrapShortcodes {
 
     return '<div class="panel"><div class="panel-heading"><h3 class="panel-title"><a class="accordion-toggle" data-toggle="collapse" data-parent="#accordion-' . $GLOBALS['collapsibles_count'] . '" href="#collapse_' . $GLOBALS['current_collapse'] . '_'. sanitize_title( $title ) .'">' . $title . '</a></h3></div><div id="collapse_' . $GLOBALS['current_collapse'] . '_'. sanitize_title( $title ) .'" class="panel-collapse collapse ' . $state . '"><div class="panel-body">' . do_shortcode($content) . ' </div></div></div>';
   }
-
 
   /*--------------------------------------------------------------------------------------
     *
