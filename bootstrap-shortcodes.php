@@ -30,45 +30,9 @@ License: GPL2
 /* ============================================================= */
 
 require_once(dirname(__FILE__) . '/includes/defaults.php');
+require_once(dirname(__FILE__) . '/includes/functions.php');
+require_once(dirname(__FILE__) . '/includes/actions-filters.php');
 
-
-// Intelligently remove extra P and BR tags around shortcodes that WordPress likes to add
-function wpex_fix_shortcodes($content){   
-    $array = array (
-        '<p>[' => '[', 
-        ']</p>' => ']', 
-        ']<br />' => ']'
-    );
-
-    $content = strtr($content, $array);
-    return $content;
-}
-add_filter('the_content', 'wpex_fix_shortcodes');
-
-// Create a Media Button for the help file
-//add a button to the content editor, next to the media button
-//this button will show a popup that contains inline content
-add_action('media_buttons_context', 'add_bootstrap_button');
-
-//action to add a custom button to the content editor
-function add_bootstrap_button($context) {
-  
-  //path to my icon
-  $img = BS_SHORTCODES_URL . 'images/bootstrap-logo.png';
-  
-  //the id of the container I want to show in the popup
-  $popup_url = BS_SHORTCODES_URL . 'bootstrap-shortcodes-help.php';
-  
-  //our popup's title
-  $title = 'Bootstrap Shortcodes Help';
-
-  //append the icon
-  $context .= "<a class='thickbox' title='{$title}'
-    href='{$popup_url}?TB_iframe=true&width=400'>
-    <img src='{$img}' /></a>";
-  
-  return $context;
-}
 
 // Begin Shortcodes 
 class BoostrapShortcodes {
