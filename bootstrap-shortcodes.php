@@ -29,6 +29,9 @@ License: GPL2
 
 /* ============================================================= */
 
+require_once(dirname(__FILE__) . '/includes/defaults.php');
+
+
 // Intelligently remove extra P and BR tags around shortcodes that WordPress likes to add
 function wpex_fix_shortcodes($content){   
     $array = array (
@@ -51,10 +54,10 @@ add_action('media_buttons_context', 'add_bootstrap_button');
 function add_bootstrap_button($context) {
   
   //path to my icon
-  $img = plugins_url( '/images/bootstrap-logo.png' , __FILE__ );
+  $img = BS_SHORTCODES_URL . 'images/bootstrap-logo.png';
   
   //the id of the container I want to show in the popup
-  $popup_url = plugins_url( '/includes/bootstrap-shortcodes-help.php' , __FILE__ );
+  $popup_url = BS_SHORTCODES_URL . 'bootstrap-shortcodes-help.php';
   
   //our popup's title
   $title = 'Bootstrap Shortcodes Help';
@@ -643,7 +646,7 @@ function bs_tooltip( $atts, $content = null ) {
     );
     extract( shortcode_atts( $defaults, $atts ) );
 
-    wp_enqueue_script( 'bootsrap-shortcodes-tooltip', plugins_url( 'js/bootstrap-shortcodes-tooltip.js', __FILE__ ), array( 'jquery' ), false, true );
+    wp_enqueue_script( 'bootsrap-shortcodes-tooltip', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-tooltip.js', array( 'jquery' ), false, true );
 
     return '<a href="#" class="bs-tooltip" data-toggle="tooltip" title="' . $title . '" data-placement="' . $placement . '" data-animation="' . $animation . '" data-html="' . $html . '">' . $content . '</a>';
   }
