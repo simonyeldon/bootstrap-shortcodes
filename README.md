@@ -199,7 +199,7 @@ title | The title of the tab | required | any text | false
 [Bootstrap list groups documentation](http://getbootstrap.com/javascript/#tabs)
 
 ### Wells
-	[well size="small"] … [/well]
+	[well size="sm"] … [/well]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
