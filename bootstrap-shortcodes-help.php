@@ -1,4 +1,14 @@
 <?php
+
+// We need a function that can add ids to HTML header tags
+function retitle($match) {
+    list($_unused, $h3, $title) = $match;
+
+    $id = strtolower(strtr($title, " .", "--"));
+
+    return "<$h3 id='$id'>$title</$h3>";
+}
+
 $thisfile = realpath(dirname(__FILE__));           
 # Install PSR-0-compatible class autoloader
 spl_autoload_register(function($class){
@@ -30,7 +40,8 @@ $html = MarkdownExtra::defaultTransform($text);
 		<?php
 			# Put HTML content in the document
             $html = str_replace('<table>', '<table class="table table-striped">', $html);
-			echo $html;
+            $html = preg_replace_callback("#<(h[1-6])>(.*?)</\\1>#", "retitle", $html);
+            echo $html;
 		?>
         </div>
     </body>
