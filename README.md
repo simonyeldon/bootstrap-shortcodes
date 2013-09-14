@@ -36,10 +36,10 @@ The plugin doesn't support all Bootstrap elements yet, but most of them.
 ### Grid
 	[row]
 	  [column md="6"]
-	    …
+	    ...
 	  [/column]
 	  [column md="6"]
-	    …
+	    ...
 	  [/column]
 	[/row]
 
@@ -65,7 +65,7 @@ push-lg | Push on column on large screens | optional | 1-12 | false
 [Bootstrap grid documentation](http://getbootstrap.com/css/#grid).
 
 ### Buttons
-	[button type="success" size="lg" link="#"] … [/button]
+	[button type="success" size="lg" link="#"] ... [/button]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -78,9 +78,9 @@ link | The url you want the button to link to | optional | any valid link | none
 
 ### Button Groups
 	[button-group size="lg" justified="" vertical=""]
-        [button link="#"] … [/button]
-        [button link="#"] … [/button]
-        [button link="#"] … [/button]
+        [button link="#"] ... [/button]
+        [button link="#"] ... [/button]
+        [button link="#"] ... [/button]
 	[/button-group]
 	
 Parameter | Description | Required | Values | Default
@@ -92,7 +92,7 @@ vertical | Whether button group is vertical | optional | true, false | false
 [Bootstrap button groups documentation](http://getbootstrap.com/css/#btn-groups)
 
 ### Alerts
-	[alert type="success"] … [/alert]
+	[alert type="success"] ... [/alert]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -103,7 +103,7 @@ strong | Text to display in bold at the beginning | optional | any text | false
 [Bootstrap alert documentation](http://getbootstrap.com/components/#alerts)
 
 ### Code
-	[code] … [/code]
+	[code] ... [/code]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -113,7 +113,7 @@ scrollable | Set a max height of 350px and provide a scroll bar. Not usable with
 [Bootstrap code documentation](http://getbootstrap.com/css/#code)
 
 ### Labels
-	[label type="success"] … [/label]
+	[label type="success"] ... [/label]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -122,7 +122,7 @@ type | The type of label to display | optional | default, primary, success, info
 [Bootstrap label documentation](http://getbootstrap.com/components/#labels)
 
 ### Badges
-	[badge right="true"] … [/badge]
+	[badge right="true"] ... [/badge]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -147,13 +147,13 @@ type | The type of icon you want to display | required | See Bootstrap docs | no
 ### Collapse (Accordion)
 	[collapsibles]
 	  [collapse title="Collapse 1" state="active"]
-	    …
+	    ...
 	  [/collapse]
 	  [collapse title="Copllapse 2"]
-	    …
+	    ...
 	  [/collapse]
 	  [collapse title="Copllapse 3"]
-	    …
+	    ...
 	  [/collapse]
 	[/collapsibles]
 	
@@ -167,13 +167,13 @@ active | Whether the tab is expanded at load time | optional | active | false
 ### List Groups
 	[list-group]
 	  [list-group-item]
-	    …
+	    ...
 	  [/list-group-item]
 	  [list-group-item]
-	    …
+	    ...
 	  [/list-group-item]
 	  [list-group-item]
-	    …
+	    ...
 	  [/list-group-item]
 	[/list-group]
 
@@ -182,13 +182,13 @@ active | Whether the tab is expanded at load time | optional | active | false
 ### Tabs
 	[tabs]
 	  [tab title="Home"]
-	    …
+	    ...
 	  [/tab]
 	  [tab title="Profile"]
-	    …
+	    ...
 	  [/tab]
 	  [tab title="Messages"]
-	    …
+	    ...
 	  [/tab]
 	[/tabs]
 
@@ -199,7 +199,7 @@ title | The title of the tab | required | any text | false
 [Bootstrap list groups documentation](http://getbootstrap.com/javascript/#tabs)
 
 ### Wells
-	[well size="small"] … [/well]
+	[well size="small"] ... [/well]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -208,7 +208,7 @@ size | Modifies the amount of padding inside the well | optional | sm, lg | norm
 [Bootstrap wells documentation](http://getbootstrap.com/components/#wells)
 
 ### Panels
-	[panel type="info" title="Panel Title" footer="Footer text"] … [/panel]
+	[panel type="info" title="Panel Title" footer="Footer text"] ... [/panel]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -221,10 +221,10 @@ footer | The panel footer text if desired | optional | any text | none
 ### Media Objects
     [media]
 	  [media-object pull="right"]
-	    …
+	    ...
 	  [/media-object]
 	  [media-body title="My Media Object"]
-        …
+        ...
 	  [/media-body]
     [/media]
 
@@ -238,7 +238,7 @@ __NOTE: media-object should contain an image, or linked image, inserted using th
 [Bootstrap panels documentation](http://getbootstrap.com/components/#panels)
 
 ### Jumbotron
-    [jumbotron title="My Jumbotron"] … [/jumbotron]
+    [jumbotron title="My Jumbotron"] ... [/jumbotron]
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---

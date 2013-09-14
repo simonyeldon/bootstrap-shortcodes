@@ -28,8 +28,8 @@ License: GPL2
 */
 
 /* ============================================================= */
-define('BOOTSTRAP_SHORTCODES_PLUGIN_PATH', dirname(__FILE__) . '/');
 
+// Intelligently remove extra P and BR tags around shortcodes that WordPress likes to add
 function wpex_fix_shortcodes($content){   
     $array = array (
         '<p>[' => '[', 
@@ -41,6 +41,31 @@ function wpex_fix_shortcodes($content){
     return $content;
 }
 add_filter('the_content', 'wpex_fix_shortcodes');
+
+// Create a Media Button for the help file
+//add a button to the content editor, next to the media button
+//this button will show a popup that contains inline content
+add_action('media_buttons_context', 'add_bootstrap_button');
+
+//action to add a custom button to the content editor
+function add_bootstrap_button($context) {
+  
+  //path to my icon
+  $img = plugins_url( '/images/bootstrap-logo.png' , __FILE__ );
+  
+  //the id of the container I want to show in the popup
+  $popup_url = plugins_url( '/bootstrap-shortcodes-help.php' , __FILE__ );
+  
+  //our popup's title
+  $title = 'Bootstrap Shortcodes Help';
+
+  //append the icon
+  $context .= "<a class='thickbox' title='{$title}'
+    href='{$popup_url}?TB_iframe=true&width=400'>
+    <img src='{$img}' /></a>";
+  
+  return $context;
+}
 
 // Begin Shortcodes 
 class BoostrapShortcodes {
