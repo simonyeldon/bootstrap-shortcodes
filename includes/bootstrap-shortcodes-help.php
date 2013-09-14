@@ -19,7 +19,7 @@ spl_autoload_register(function($class){
 //use \Michelf\Markdown;
 use \Michelf\MarkdownExtra;
 
-$text = file_get_contents(dirname(__FILE__) . '/README.md');
+$text = file_get_contents(dirname(__FILE__) . '/../README.md');
 $html = MarkdownExtra::defaultTransform($text);
 ?>
 <!DOCTYPE html>

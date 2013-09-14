@@ -54,7 +54,7 @@ function add_bootstrap_button($context) {
   $img = plugins_url( '/images/bootstrap-logo.png' , __FILE__ );
   
   //the id of the container I want to show in the popup
-  $popup_url = plugins_url( '/bootstrap-shortcodes-help.php' , __FILE__ );
+  $popup_url = plugins_url( '/includes/bootstrap-shortcodes-help.php' , __FILE__ );
   
   //our popup's title
   $title = 'Bootstrap Shortcodes Help';
