@@ -84,6 +84,8 @@ class BoostrapShortcodes {
     add_shortcode('media', array( $this, 'bs_media' ));
     add_shortcode('media-object', array( $this, 'bs_media_object' ));
     add_shortcode('media-body', array( $this, 'bs_media_body' ));
+    add_shortcode('lead', array( $this, 'bs_lead' ));
+
   }
 
 
@@ -674,5 +676,18 @@ function bs_media_body( $atts, $content = null ) {
   }
 
 }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_lead
+    *
+    * @author Filip Stefansson
+    * @since 1.0
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_lead( $atts, $content = null ) {
+    return '<p class="lead">' . do_shortcode( $content ) . '</p>';
+
+  }
 
 new BoostrapShortcodes();

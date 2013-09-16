@@ -17,6 +17,7 @@ The plugin doesn't support all Bootstrap elements yet, but most of them.
 * [Grid](#grid)
 * [Buttons](#buttons)
 * [Button Groups](#button-groups)
+* [Lead body copy](#lead-body-copy)
 * [Alerts](#alerts)
 * [Code](#code)
 * [Labels](#labels)
@@ -89,6 +90,11 @@ justified | Whether button group is justified | optional | true, false | false
 vertical | Whether button group is vertical | optional | true, false | false
 
 [Bootstrap button groups documentation](http://getbootstrap.com/css/#btn-groups)
+
+### Lead body copy
+	[lead] … [/lead]
+
+[Bootstrap body copy documentation](http://getbootstrap.com/css/#type-body-copy)
 
 ### Alerts
 	[alert type="success"] … [/alert]
