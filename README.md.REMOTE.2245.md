@@ -198,11 +198,7 @@ title | The title of the tab | required | any text | false
 [Bootstrap list groups documentation](http://getbootstrap.com/javascript/#tabs)
 
 ### Wells
-<<<<<<< HEAD
-	[well size="sm"] … [/well]
-=======
 	[well size="small"] ... [/well]
->>>>>>> help-tab
 
 Parameter | Description | Required | Values | Default
 --- | --- | --- | --- | ---
@@ -239,15 +235,3 @@ title | The object title | required | Any text | none
 __NOTE: media-object should contain an image, or linked image, inserted using the WordPress TinyMCE editor__
 
 [Bootstrap panels documentation](http://getbootstrap.com/components/#panels)
-<<<<<<< HEAD
-
-### Jumbotron
-    [jumbotron title="My Jumbotron"] … [/jumbotron]
-
-Parameter | Description | Required | Values | Default
---- | --- | --- | --- | ---
-title | The jumbotron title | required | Any text | none
-
-[Bootstrap jumbotron documentation](http://getbootstrap.com/components/#jumbotron)
-=======
->>>>>>> help-tab
