@@ -30,10 +30,7 @@ License: GPL2
 /* ============================================================= */
 define('BOOTSTRAP_SHORTCODES_PLUGIN_PATH', dirname(__FILE__) . '/');
 
-// Begin TinyMCE Buttons
-require_once ( BOOTSTRAP_SHORTCODES_PLUGIN_PATH . '/includes/tinymce-buttons.php' );
-
-function wpex_fix_shortcodes($content){
+function wpex_fix_shortcodes($content){   
     $array = array (
         '<p>[' => '[',
         ']</p>' => ']',
@@ -83,7 +80,11 @@ class BoostrapShortcodes {
     add_shortcode('tab', array( $this, 'bs_tab' ));
     add_shortcode('tooltip', array( $this, 'bs_tooltip' ));
     add_shortcode('panel', array( $this, 'bs_panel' ));
-
+    add_shortcode('media', array( $this, 'bs_media' ));
+    add_shortcode('media-object', array( $this, 'bs_media_object' ));
+    add_shortcode('media-body', array( $this, 'bs_media_body' ));
+    add_shortcode('jumbotron', array( $this, 'bs_jumbotron' ));
+    add_shortcode('lead', array( $this, 'bs_lead' ));
   }
 
   /*--------------------------------------------------------------------------------------
@@ -119,8 +120,21 @@ class BoostrapShortcodes {
     *
     *-------------------------------------------------------------------------------------*/
   function bs_button_group( $atts, $content = null ) {
-
-    return '<div class="button-group">' . do_shortcode( $content ) . '</div>';
+     extract(shortcode_atts(array(
+        "size" => false,
+        "vertical" => false,
+        "justified" => false
+     ), $atts));
+      if($size) {
+        $classes .= ' btn-group-'.$size;
+      }
+       if($vertical) {
+        $classes .= ' btn-group-vertical';
+      } 
+       if($justified) {
+        $classes .= ' btn-group-justified';
+      }
+    return '<div class="button-group '.$classes.'">' . do_shortcode( $content ) . '</div>';
 
   }
 
@@ -561,16 +575,93 @@ class BoostrapShortcodes {
 function bs_tooltip( $atts, $content = null ) {
 
     $defaults = array(
-	'title' => '',
-	'placement' => 'top',
-	'animation' => 'true',
-	'html' => 'false'
+	   'title' => '',
+	   'placement' => 'top',
+	   'animation' => 'true',
+	   'html' => 'false'
     );
     extract( shortcode_atts( $defaults, $atts ) );
 
     wp_enqueue_script( 'bootsrap-shortcodes-tooltip', plugins_url( 'js/bootstrap-shortcodes-tooltip.js', __FILE__ ), array( 'jquery' ), false, true );
 
     return '<a href="#" class="bs-tooltip" data-toggle="tooltip" title="' . $title . '" data-placement="' . $placement . '" data-animation="' . $animation . '" data-html="' . $html . '">' . $content . '</a>';
+  }
+
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_media
+    *
+    * @author
+    * @since 1.0
+    *
+    *-------------------------------------------------------------------------------------*/
+    
+function bs_media( $atts, $content = null ) {
+    
+    $defaults = array(
+	   'title' => false,
+    );
+    extract( shortcode_atts( $defaults, $atts ) );
+    return '<div class="media">' . do_shortcode( $content ) . '</div>';
+  }
+
+function bs_media_object( $atts, $content = null ) {
+
+    $defaults = array(
+	   'pull' => "left",
+    );
+    extract( shortcode_atts( $defaults, $atts ) );
+    
+    $classes = "media-object";
+    if ( preg_match('/<img.*? class=".*?" \/>/', $content) ) { 
+         $return = preg_replace('/(<img.*? class=".*?)(".*?>)/', '$1 ' . $classes . '$2', $content); 
+    } 
+    else { 
+         $return = preg_replace('/(<img.*?)>/', '$1 class="' . $classes . '" >', $content);
+    }
+    $return = '<span class="pull-'. $pull . '">' . $return . '</span>';
+    return $return;
+  }
+
+function bs_media_body( $atts, $content = null ) {
+    
+    $defaults = array(
+	   'title' => false,
+    );
+    extract( shortcode_atts( $defaults, $atts ) );
+    $return .= '<div class="meda-body">';
+    $return .= ($title) ? '<h4 class="media-heading">' . $title . '</h4>' : '';
+    $return .= $content . '</div>';
+    return $return;
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_jumbotron
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_jumbotron( $atts, $content = null ) {
+    extract(shortcode_atts(array(
+      "title" => false
+    ), $atts));
+
+    $return .='<div class="jumbotron">';
+    $return .= ($title) ? '<h1>' . $title . '</h1>' : '';
+    $return .= do_shortcode( $content ) . '</div>';
+    return $return;
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_lead
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_lead( $atts, $content = null ) {
+    return '<p class="lead">' . do_shortcode( $content ) . '</p>';
+
   }
 
 }
