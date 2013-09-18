@@ -28,19 +28,10 @@ License: GPL2
 */
 
 /* ============================================================= */
-define('BOOTSTRAP_SHORTCODES_PLUGIN_PATH', dirname(__FILE__) . '/');
 
-function wpex_fix_shortcodes($content){   
-    $array = array (
-        '<p>[' => '[',
-        ']</p>' => ']',
-        ']<br />' => ']'
-    );
-
-    $content = strtr($content, $array);
-    return $content;
-}
-add_filter('the_content', 'wpex_fix_shortcodes');
+require_once(dirname(__FILE__) . '/includes/defaults.php');
+require_once(dirname(__FILE__) . '/includes/functions.php');
+require_once(dirname(__FILE__) . '/includes/actions-filters.php');
 
 // Begin Shortcodes
 class BoostrapShortcodes {
@@ -84,6 +75,8 @@ class BoostrapShortcodes {
     add_shortcode('media', array( $this, 'bs_media' ));
     add_shortcode('media-object', array( $this, 'bs_media_object' ));
     add_shortcode('media-body', array( $this, 'bs_media_body' ));
+    add_shortcode('jumbotron', array( $this, 'bs_jumbotron' ));
+    add_shortcode('lead', array( $this, 'bs_lead' ));
   }
 
 
@@ -617,7 +610,7 @@ function bs_tooltip( $atts, $content = null ) {
     );
     extract( shortcode_atts( $defaults, $atts ) );
 
-    wp_enqueue_script( 'bootsrap-shortcodes-tooltip', plugins_url( 'js/bootstrap-shortcodes-tooltip.js', __FILE__ ), array( 'jquery' ), false, true );
+    wp_enqueue_script( 'bootsrap-shortcodes-tooltip', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-tooltip.js', array( 'jquery' ), false, true );
 
     return '<a href="#" class="bs-tooltip" data-toggle="tooltip" title="' . $title . '" data-placement="' . $placement . '" data-animation="' . $animation . '" data-html="' . $html . '">' . $content . '</a>';
   }
@@ -666,11 +659,37 @@ function bs_media_body( $atts, $content = null ) {
     );
     extract( shortcode_atts( $defaults, $atts ) );
     $return .= '<div class="meda-body">';
-    if($title) {
-        $return .= '<h4 class="media-heading">' . $title . '</h4>';
-    }
+    $return .= ($title) ? '<h4 class="media-heading">' . $title . '</h4>' : '';
     $return .= $content . '</div>';
     return $return;
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_jumbotron
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_jumbotron( $atts, $content = null ) {
+    extract(shortcode_atts(array(
+      "title" => false
+    ), $atts));
+
+    $return .='<div class="jumbotron">';
+    $return .= ($title) ? '<h1>' . $title . '</h1>' : '';
+    $return .= do_shortcode( $content ) . '</div>';
+    return $return;
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_lead
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_lead( $atts, $content = null ) {
+    return '<p class="lead">' . do_shortcode( $content ) . '</p>';
+
   }
 
 }
