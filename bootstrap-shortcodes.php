@@ -1,13 +1,11 @@
 <?php
 /*
-Plugin Name: Bootstrap Shortcodes
+Plugin Name: Bootstrap 3 Shortcodes
 Plugin URI: http://wp-snippets.com/freebies/bootstrap-shortcodes or https://github.com/filipstefansson/bootstrap-shortcodes
 Description: The plugin adds a shortcodes for all Bootstrap elements.
-Version: 1.0
-Author: Filip Stefansson
-Author URI: http://wp-snippets.com
-Modified by: TwItCh AKA Dustin Crisman twitch@twitch.es
-Modified URI: https://github.com/TwItChDW/bootstrap-shortcodes/
+Version: 0.1
+Author: Filip Stefansson and Michael W. Delaney
+Author URI: 
 License: GPL2
 */
 
@@ -32,6 +30,9 @@ License: GPL2
 require_once(dirname(__FILE__) . '/includes/defaults.php');
 require_once(dirname(__FILE__) . '/includes/functions.php');
 require_once(dirname(__FILE__) . '/includes/actions-filters.php');
+
+wp_enqueue_script( 'bootsrap-shortcodes-tooltip', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-tooltip.js', array( 'jquery' ), false, true );
+wp_enqueue_script( 'bootsrap-shortcodes-popover', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-popover.js', array( 'jquery' ), false, true );
 
 // Begin Shortcodes
 class BoostrapShortcodes {
@@ -71,12 +72,19 @@ class BoostrapShortcodes {
     add_shortcode('tabs', array( $this, 'bs_tabs' ));
     add_shortcode('tab', array( $this, 'bs_tab' ));
     add_shortcode('tooltip', array( $this, 'bs_tooltip' ));
+    add_shortcode('popover', array( $this, 'bs_popover' ));
     add_shortcode('panel', array( $this, 'bs_panel' ));
     add_shortcode('media', array( $this, 'bs_media' ));
     add_shortcode('media-object', array( $this, 'bs_media_object' ));
     add_shortcode('media-body', array( $this, 'bs_media_body' ));
     add_shortcode('jumbotron', array( $this, 'bs_jumbotron' ));
     add_shortcode('lead', array( $this, 'bs_lead' ));
+    add_shortcode('emphasis', array( $this, 'bs_emphasis' ));
+    add_shortcode('thumbnail', array( $this, 'bs_thumbnail' ));
+    add_shortcode('responsive', array( $this, 'bs_responsive' ));
+    add_shortcode('modal', array( $this, 'bs_modal' ));
+    add_shortcode('modal-footer', array( $this, 'bs_modal_footer' ));
+
   }
 
 
@@ -94,14 +102,27 @@ class BoostrapShortcodes {
         "type" => false,
         "size" => false,
         "link" => '',
-        "xclass" => false
+        "target" => false,
+        "xclass" => false,
+        "title" => false,
+        "data" => false
      ), $atts));
-
+      if($data) { 
+          $data = explode('|',$data);
+          foreach($data as $d):
+            $d = explode(',',$d);    
+                $data_props .= 'data-'.$d[0]. '="'.$d[1].'" ';
+          endforeach;
+      }
      $return  =  '<a href="' . $link . '" class="btn';
+     $return .= ($target) ? ' target=' . $target : '';
      $return .= ($type) ? ' btn-' . $type : ' btn-default';
      $return .= ($size) ? ' btn-' . $size : '';
      $return .= ($xclass) ? ' ' . $xclass : '';
-     $return .= '">' . do_shortcode( $content ) . '</a>';
+     $return .= '"';
+     $return .= ($title) ? ' title="' . $title . '"' : '';
+     $return .= ($data_props) ? ' ' . $data_props : '';
+     $return .= '>' . do_shortcode( $content ) . '</a>';
 
      return $return;
   }
@@ -609,10 +630,60 @@ function bs_tooltip( $atts, $content = null ) {
 	   'html' => 'false'
     );
     extract( shortcode_atts( $defaults, $atts ) );
+    $classes = 'bs-tooltip';    
 
-    wp_enqueue_script( 'bootsrap-shortcodes-tooltip', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-tooltip.js', array( 'jquery' ), false, true );
+    $dom = new DOMDocument;
+    $dom->loadXML($content);
+    if(!$dom->documentElement) {
+        $element = $dom->createElement('span', $content);
+        $dom->appendChild($element);
+    }
+    $dom->documentElement->setAttribute('class', $dom->documentElement->getAttribute('class') . ' ' . $classes);
+    $dom->documentElement->setAttribute('title', $title );
+    if($animation) { $dom->documentElement->setAttribute('data-animation', $animation ); }
+    if($placement) { $dom->documentElement->setAttribute('data-placement', $placement ); }
+    if($html) { $dom->documentElement->setAttribute('data-html', $html ); }
 
-    return '<a href="#" class="bs-tooltip" data-toggle="tooltip" title="' . $title . '" data-placement="' . $placement . '" data-animation="' . $animation . '" data-html="' . $html . '">' . $content . '</a>';
+    $return = $dom->saveXML();
+    
+    return $return;
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_popover
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+
+function bs_popover( $atts, $content = null ) {
+
+    $defaults = array(
+	   'title' => false,
+        'content' => '',
+	   'placement' => 'top',
+	   'animation' => 'true',
+	   'html' => 'false'
+    );
+    extract( shortcode_atts( $defaults, $atts ) );
+    $classes = 'bs-popover';
+    
+    $dom = new DOMDocument;
+    $dom->loadXML($content);
+    if(!$dom->documentElement) {
+        $element = $dom->createElement('span', $content);
+        $dom->appendChild($element);
+    }
+    $dom->documentElement->setAttribute('class', $dom->documentElement->getAttribute('class') . ' ' . $classes);
+    if($title) { $dom->documentElement->setAttribute('data-original-title', $title ); }
+    $dom->documentElement->setAttribute('data-content', $content );
+    if($animation) { $dom->documentElement->setAttribute('data-animation', $animation ); }
+    if($placement) { $dom->documentElement->setAttribute('data-placement', $placement ); }
+    if($html) { $dom->documentElement->setAttribute('data-html', $html ); }
+
+    $return = $dom->saveXML();
+    
+    return $return;
   }
 
 
@@ -642,12 +713,10 @@ function bs_media_object( $atts, $content = null ) {
     extract( shortcode_atts( $defaults, $atts ) );
     
     $classes = "media-object";
-    if ( preg_match('/<img.*? class=".*?" \/>/', $content) ) { 
-         $return = preg_replace('/(<img.*? class=".*?)(".*?>)/', '$1 ' . $classes . '$2', $content); 
-    } 
-    else { 
-         $return = preg_replace('/(<img.*?)>/', '$1 class="' . $classes . '" >', $content);
-    }
+    $dom = new DOMDocument;
+    $dom->loadXML($content);
+    $dom->documentElement->setAttribute('class', $dom->documentElement->getAttribute('class') . ' ' . $classes);
+    $return = $dom->saveXML();
     $return = '<span class="pull-'. $pull . '">' . $return . '</span>';
     return $return;
   }
@@ -689,6 +758,125 @@ function bs_media_body( $atts, $content = null ) {
     *-------------------------------------------------------------------------------------*/
   function bs_lead( $atts, $content = null ) {
     return '<p class="lead">' . do_shortcode( $content ) . '</p>';
+
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_emphasis
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_emphasis( $atts, $content = null ) {
+    extract(shortcode_atts(array(
+      "type" => 'muted'
+    ), $atts));
+    return '<p class="text-' . $type . '">' . do_shortcode( $content ) . '</p>';
+
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_thumbnail
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_thumbnail( $atts, $content = null ) {
+    $classes = "thumbnail";
+    $dom = new DOMDocument;
+    $dom->loadXML($content);
+    if(!$dom->documentElement) {
+        $element = $dom->createElement('div', $content);
+        $dom->appendChild($element);
+    }
+    $dom->documentElement->setAttribute('class', $dom->documentElement->getAttribute('class') . ' ' . $classes);
+
+    $return = $dom->saveXML();
+    
+    return $return;
+
+  }
+    
+    /*--------------------------------------------------------------------------------------
+    *
+    * bs_responsive
+    *
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_responsive( $atts, $content = null ) {
+      extract( shortcode_atts( array(
+          'visible' => '',
+          'hidden' => '',
+      ), $atts ) );
+      if($visible) { 
+          $visible = explode(' ',$visible);
+          foreach($visible as $v):
+            $classes .= 'visible-'.$v.' ';
+          endforeach;
+      }
+      if($hidden) { 
+          $hidden = explode(' ',$hidden);
+          foreach($hidden as $h):
+            $classes .= 'hidden-'.$h.' ';
+          endforeach;
+      }
+    $dom = new DOMDocument;
+    $dom->loadXML($content);
+    if(!$dom->documentElement) {
+        $element = $dom->createElement('p', $content);
+        $dom->appendChild($element);
+    }
+    $dom->documentElement->setAttribute('class', $dom->documentElement->getAttribute('class') . ' ' . $classes);
+
+    $return = $dom->saveXML();
+    
+    return $return;
+
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_modal
+    *
+    * @author M. W. Delaney
+    * @since 1.0
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_modal( $atts, $content = null ) {
+    extract(shortcode_atts(array(
+      "text" => '',
+      "title" => '',
+      "xclass" => ''
+    ), $atts));
+    $sani_title = 'modal'. sanitize_title( $title );
+    $return .='<a data-toggle="modal" href="#'. $sani_title .'" class="'. $xclass .'">'. $text .'</a>';
+    $return .='<div class="modal fade" id="'. $sani_title .'" tabindex="-1" role="dialog" aria-hidden="true">';
+    $return .='<div class="modal-dialog">';
+    $return .='<div class="modal-content">';
+    $return .='<div class="modal-header">';
+    $return .='<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>';
+    $return .='<h4 class="modal-title">'. $title .'</h4>';
+    $return .='</div>';
+    $return .='<div class="modal-body">';
+    $return .= do_shortcode($content);
+    $return .='</div>';
+    $return .='</div><!-- /.modal-content -->';
+    $return .='</div><!-- /.modal-dialog -->';
+    $return .='</div><!-- /.modal -->';  
+    return $return;
+
+  }
+
+  /*--------------------------------------------------------------------------------------
+    *
+    * bs_modal_footer
+    *
+    * @author M. W. Delaney
+    * @since 1.0
+    *
+    *-------------------------------------------------------------------------------------*/
+  function bs_modal_footer( $atts, $content = null ) {
+    return '<div class="modal-footer">' . do_shortcode( $content ) . '</div>';
 
   }
 
