@@ -31,16 +31,30 @@ require_once(dirname(__FILE__) . '/includes/defaults.php');
 require_once(dirname(__FILE__) . '/includes/functions.php');
 require_once(dirname(__FILE__) . '/includes/actions-filters.php');
 
-wp_enqueue_script( 'bootsrap-shortcodes-tooltip', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-tooltip.js', array( 'jquery' ), false, true );
-wp_enqueue_script( 'bootsrap-shortcodes-popover', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-popover.js', array( 'jquery' ), false, true );
-
 // Begin Shortcodes
 class BoostrapShortcodes {
 
   function __construct() {
     add_action( 'init', array( $this, 'add_shortcodes' ) );
+    
+    // Load public-facing style sheet and JavaScript.
+    add_action('wp_enqueue_scripts', array($this, 'enqueue_styles'));
+    add_action('wp_enqueue_scripts', array($this, 'enqueue_scripts'));
   }
 
+  /**
+   * Register and enqueue public-facing style sheet.
+   */
+  public function enqueue_styles() {
+  }
+
+  /**
+   * Register and enqueues public-facing JavaScript files.
+   */
+  public function enqueue_scripts() {
+    wp_enqueue_script( 'bootsrap-shortcodes-tooltip', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-tooltip.js', array( 'jquery' ), false, true );
+    wp_enqueue_script( 'bootsrap-shortcodes-popover', BS_SHORTCODES_URL . 'js/bootstrap-shortcodes-popover.js', array( 'jquery' ), false, true );
+  }
 
   /*--------------------------------------------------------------------------------------
     *
